@@ -14,10 +14,10 @@ python image_encryption.py
 
 ### Example
 
-Encrypted image:
-<img src="encrypted_image_987140.png" width="500">
+<p>Encrypted image:</p>
+<img src="example/encrypted_image_987140.png" width="500">
 
-Decrypted image:
-<img src="decrypted_image_987140.png" width="500">
+<p>Decrypted image:</p>
+<img src="example/decrypted_image_987140.png" width="500">
 
 Password: fe?dK='Gck#Ih$inENx0Fn`S[JKRiX
