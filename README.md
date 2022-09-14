@@ -15,9 +15,9 @@ python image_encryption.py
 ### Example
 
 <p>Encrypted image:</p>
-<img src="example/encrypted_image_987140.png" width="500">
+<img src="example/encrypted_image_987140.png" width="800">
 
 <p>Decrypted image:</p>
-<img src="example/decrypted_image_987140.png" width="500">
+<img src="example/decrypted_image_987140.png" width="800">
 
 Password: fe?dK='Gck#Ih$inENx0Fn`S[JKRiX
