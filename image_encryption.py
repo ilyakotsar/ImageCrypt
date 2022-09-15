@@ -23,7 +23,7 @@ class ImageEncryption():
         colors = self.get_pixels(im)
         numbers = self.password_to_numbers(self.password)
         encrypted = colors
-        for i in self.progress_bar(numbers, 'Encryption: '):
+        for i in progress_bar(numbers, 'Encryption: '):
             encrypted = self.rail_fence_encrypt(encrypted, i)
         new_filename = self.new_filename('encrypted')
         self.create_and_save_image(encrypted, im.width, im.height, new_filename)
@@ -35,7 +35,7 @@ class ImageEncryption():
         colors = self.get_pixels(im)
         numbers = self.password_to_numbers(self.password[::-1])
         decrypted = colors
-        for i in self.progress_bar(numbers, 'Decryption: '):
+        for i in progress_bar(numbers, 'Decryption: '):
             decrypted = self.rail_fence_decrypt(decrypted, i)
         new_filename = self.new_filename('decrypted', filename)
         if new_filename:
@@ -44,9 +44,11 @@ class ImageEncryption():
         else:
             print('Error: the path is not empty')
 
-    def get_pixels(self, im):
+    @staticmethod
+    def get_pixels(im):
+        print('')
         colors = []
-        for x in self.progress_bar(range(im.width), 'Scanning: '):
+        for x in progress_bar(range(im.width), 'Scanning: '):
             for y in range(im.height):
                 color = im.getpixel((x, y))
                 colors.append(color)
@@ -94,11 +96,12 @@ class ImageEncryption():
                 else:
                     return new_filename
 
-    def create_and_save_image(self, colors, width, height, filename):
+    @staticmethod
+    def create_and_save_image(colors, width, height, filename):
         im = Image.new('RGB', (width, height))
         image_array = np.array(im)
         i = 0
-        for x in self.progress_bar(range(width), 'Creation: '):
+        for x in progress_bar(range(width), 'Creation: '):
             for y in range(height):
                 r = colors[i][0]
                 g = colors[i][1]
@@ -109,18 +112,18 @@ class ImageEncryption():
         new_image.save(filename)
         print(f'Image saved as {filename}')
 
-    @staticmethod
-    def progress_bar(it, prefix='', size=60, out=sys.stdout):
-        count = len(it)
 
-        def show(j):
-            x = int(size*j/count)
-            print(f"{prefix}[{u'='*x}{('.'*(size-x))}] {j}/{count}", end='\r', file=out, flush=True)
-        show(0)
-        for i, item in enumerate(it):
-            yield item
-            show(i+1)
-        print('\n', flush=True, file=out)
+def progress_bar(it, prefix='', size=60, out=sys.stdout):
+    count = len(it)
+
+    def show(j):
+        x = int(size*j/count)
+        print(f"{prefix}[{u'='*x}{('.'*(size-x))}] {j}/{count}", end='\r', file=out, flush=True)
+    show(0)
+    for i, item in enumerate(it):
+        yield item
+        show(i+1)
+    print('\n', flush=True, file=out)
 
 
 def main():
