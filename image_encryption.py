@@ -21,7 +21,7 @@ class ImageEncryption():
         start = datetime.now()
         im = Image.open(filename)
         colors = self.get_pixels(im)
-        numbers = self.password_to_numbers(self.password)
+        numbers = self.password_to_integers(self.password)
         encrypted = colors
         for i in progress_bar(numbers, 'Encryption: '):
             encrypted = self.rail_fence_encrypt(encrypted, i)
@@ -33,7 +33,7 @@ class ImageEncryption():
         start = datetime.now()
         im = Image.open(filename)
         colors = self.get_pixels(im)
-        numbers = self.password_to_numbers(self.password[::-1])
+        numbers = self.password_to_integers(self.password[::-1])
         decrypted = colors
         for i in progress_bar(numbers, 'Decryption: '):
             decrypted = self.rail_fence_decrypt(decrypted, i)
@@ -55,9 +55,9 @@ class ImageEncryption():
         return colors
 
     @staticmethod
-    def password_to_numbers(password):
-        numbers = [ord(i) for i in password]
-        return numbers
+    def password_to_integers(password):
+        integers = [ord(i) for i in password]
+        return integers
 
     def rail_fence_encrypt(self, plaintext, rails):
         p = self.rail_pattern(rails)
