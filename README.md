@@ -12,6 +12,10 @@ Image encryption with a password using rail fence cipher.
 Password: fe?dK='Gck#Ih$inENx0Fn`S[JKRiX
 
 ### Usage
+
+Download release for [Windows](https://github.com/ilyakotsar/image-encryption/releases/download/v1.0.0/image_encryption.exe) or [macOS](https://github.com/ilyakotsar/image-encryption/releases/download/v1.0.0/macOS_image_encryption.zip).
+
+Using source code:
 Install Pillow and NumPy
 ```
 pip install pillow numpy
