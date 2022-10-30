@@ -8,8 +8,7 @@ try:
     import numpy as np
     from PIL import Image
     from PIL import UnidentifiedImageError
-except ModuleNotFoundError as error:
-    print(error)
+except ModuleNotFoundError:
     print('Enter the command: pip install pillow numpy')
     sys.exit()
 
@@ -26,8 +25,8 @@ class ImageEncryption():
         encrypted = colors
         for i in progress_bar(numbers, 'Encryption: '):
             encrypted = self.rail_fence_encrypt(encrypted, i)
-        new_filename = self.new_filename('encrypted')
-        self.create_and_save_image(encrypted, im.width, im.height, new_filename)
+        new_filename = self.new_filename('e')
+        self.create_and_save_image(encrypted, im.width, im.height, new_filename, 'e')
         print('Time:', datetime.now() - start)
 
     def decrypt(self, filename):
@@ -38,12 +37,12 @@ class ImageEncryption():
         decrypted = colors
         for i in progress_bar(numbers, 'Decryption: '):
             decrypted = self.rail_fence_decrypt(decrypted, i)
-        new_filename = self.new_filename('decrypted', filename)
+        new_filename = self.new_filename('d', filename)
         if new_filename:
-            self.create_and_save_image(decrypted, im.width, im.height, new_filename)
+            self.create_and_save_image(decrypted, im.width, im.height, new_filename, 'd')
             print('Time:', datetime.now() - start)
         else:
-            print('Error: the path is not empty')
+            print('Error: the path is already taken')
 
     @staticmethod
     def get_pixels(im):
@@ -82,23 +81,23 @@ class ImageEncryption():
         while True:
             if filename is None:
                 while True:
-                    number = ''.join([str(random.randint(0, 9)) for _ in range(6)])
-                    new_filename = f'{mode}_image_{number}.png'
+                    number = ''.join([str(random.randint(0, 9)) for _ in range(5)])
+                    new_filename = f'{mode}i-{number}.png'
                     if os.path.exists(new_filename):
                         continue
                     else:
                         break
                 return new_filename
             else:
-                number = filename.split('image_')[1].split('.')[0]
-                new_filename = f'{mode}_image_{number}.png'
+                number = filename.split('i-')[1].split('.')[0]
+                new_filename = f'{mode}i-{number}.png'
                 if os.path.exists(new_filename):
                     return None
                 else:
                     return new_filename
 
     @staticmethod
-    def create_and_save_image(colors, width, height, filename):
+    def create_and_save_image(colors, width, height, filename, mode):
         im = Image.new('RGB', (width, height))
         image_array = np.array(im)
         i = 0
@@ -111,7 +110,10 @@ class ImageEncryption():
                 i += 1
         new_image = Image.fromarray(image_array, 'RGB')
         new_image.save(filename)
-        print(f'Image saved as {filename}')
+        if mode == 'e':
+            print(f'Encrypted image saved as {filename}')
+        elif mode == 'd':
+            print(f'Decrypted image saved as {filename}')
 
 
 def progress_bar(it, prefix='', size=60, out=sys.stdout):
@@ -137,13 +139,10 @@ def main():
     password = getpass.getpass(prompt='Enter password: ', stream=None)
     if len(password) > 0:
         mode = input('Do you want to encrypt or decrypt the image [E/d]? ')
-        if mode == 'e' or mode == 'E' or mode == '':
-            ImageEncryption(password).encrypt(filename)
-        elif mode == 'd' or mode == 'D':
+        if mode == 'd' or mode == 'D':
             ImageEncryption(password).decrypt(filename)
         else:
-            print('Error: invalid input')
-        return
+            ImageEncryption(password).encrypt(filename)
     else:
         print('Error: empty password')
         return
