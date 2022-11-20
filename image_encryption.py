@@ -8,6 +8,7 @@ try:
     import numpy as np
     from PIL import Image
     from PIL import UnidentifiedImageError
+    from PIL.PngImagePlugin import PngInfo
 except ModuleNotFoundError:
     print('Enter the command: pip install pillow numpy')
     sys.exit()
@@ -111,6 +112,11 @@ class ImageEncryption():
         new_image = Image.fromarray(image_array, 'RGB')
         new_image.save(filename)
         if mode == 'e':
+            en_image = Image.open(filename)
+            metadata = PngInfo()
+            metadata.add_text('info', 'encrypted-image-with-rail-fence-cipher')
+            en_image.save(filename, pnginfo=metadata)
+        if mode == 'e':
             print(f'Encrypted image saved as {filename}')
         elif mode == 'd':
             print(f'Decrypted image saved as {filename}')
@@ -137,14 +143,14 @@ def main():
         print(error)
         return
     password = getpass.getpass(prompt='Enter password: ', stream=None)
-    if len(password) > 0:
+    if len(password) >= 8:
         mode = input('Do you want to encrypt or decrypt the image [E/d]? ')
         if mode == 'd' or mode == 'D':
             ImageEncryption(password).decrypt(filename)
         else:
             ImageEncryption(password).encrypt(filename)
     else:
-        print('Error: empty password')
+        print('Error: minimum password length: 8')
         return
 
 
