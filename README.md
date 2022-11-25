@@ -1,29 +1,29 @@
 # Image Encryption
 
-Image encryption with a password using rail fence cipher.
+Image encryption with a password using rail fence cipher
 
 ### Example
 
 <p>Encrypted image:</p>
-<img src="example/ei-51476.png" width="800">
+<img src="example/image-e.png" width="800">
 
 <p>Decrypted image:</p>
-<img src="example/di-51476.png" width="800">
+<img src="example/image-e-d.png" width="800">
 
-Password: fe?dK='Gck#Ih$inENx0Fn`S[JKRiX
+Password: 2RtLSOBb61jvLQo71jCA
 
 ### Usage
 
-Download release for [Windows](https://github.com/ilyakotsar/image-encryption/releases/download/v1.0.0/image_encryption.exe)
+Download release for [Windows](https://github.com/ilyakotsar/ImageCrypt/releases/download/v1.0.0/ImageCrypt.exe)
 
 Or use source code:
 
-Install Pillow and NumPy
+Install NumPy and Pillow
 ```
-pip install pillow numpy
+pip install numpy pillow
 ```
 
 Run the script
 ```
-python image_encryption.py
+python imagecrypt.py
 ```
