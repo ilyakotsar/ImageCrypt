@@ -1,6 +1,8 @@
-# Image Encryption
+# ImageCrypt
 
 Image encryption with a password using rail fence cipher
+
+Available formats: .png/.jpg
 
 ### Example
 
